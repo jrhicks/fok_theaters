@@ -1,0 +1,63 @@
+<HTML>
+<head>
+<title>FOK</title>
+<script src="http://maps.google.com/maps?file=api&v=2&key=<%=GOOGLE_API_CODE%>" type="text/javascript"></script>
+</head>
+
+<script type="text/javascript">
+	var map;
+	var bounds = new GLatLngBounds();
+
+	<% for theater in THEATERS %>
+		var mark<%=theater.object_id%>;
+	<%end %>
+
+	function load_map() {
+		map = new GMap2(document.getElementById("map"));
+		map.addControl(new GSmallMapControl());
+		map.addControl(new GMapTypeControl());
+		
+		<% for t in THEATERS %>
+		var point = new GLatLng(<%=t[:latitude]%>,<%=t[:longitude]%>);
+		bounds.extend(point);
+		mark<%=t.object_id%> = new GMarker(point);
+		GEvent.addListener(mark<%=t.object_id%>, "click", function() {
+			map.setCenter(new GLatLng(<%=t[:latitude]%>, <%=t[:longitude]%>));
+			mark<%=t.object_id%>.openInfoWindowHtml("<%=t[:name]%>");
+			});
+		map.addOverlay(mark<%=t.object_id%>);
+		<%end %>
+		map.setCenter(bounds.getCenter(), map.getBoundsZoomLevel(bounds));
+		};
+		<% for t in THEATERS %>
+		function locate<%=t.object_id%>() {
+		map.closeInfoWindow();
+		map.setCenter(map.getCenter(), 5);
+		map.panTo(new GLatLng(<%=t[:latitude]%>, <%=t[:longitude]%>)) ;
+		window.setTimeout(function() {
+		mark<%=t.object_id%>.openInfoWindowHtml("<%=t.object_id%>");
+		}, 2000);
+		};
+		
+		function search(address) {
+			
+		}
+		
+		<%end %>
+</script>
+
+
+
+<body style="margin: 0px; padding: 0px;" onLoad="load_map();">
+	
+	<div style="width: 100%; text-align: center;">
+		<h1>Find Nearest Theaters</h1>
+		
+		<input type="text"value="Your Address" name="address" size="50" onfocus="this.value='';"> <input type="submit" value="Go"><br><br>
+	</div>
+	
+	
+	<div id="map" style="width:100%;height:100%"></div>
+</body>
+
+</html>
