@@ -8,9 +8,9 @@ require 'theaters.rb'
 GOOGLE_API_CODE = 'ABQIAAAAb0Sv2hCd8UdPqsnJb4tlxhSuHW_e0bmW98OEDUUx7DH-1gkwmhR-nrpauXqPZUkA_fl4urXeYuDCDA' 
 
 get '/map' do
-	erb open("map.html.erb","r").read()
+	erb :map
 end
 
-def '/search' do
+get	 '/search' do
 	
 end
