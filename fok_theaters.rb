@@ -1,6 +1,4 @@
 require 'rubygems'
-require 'cgi'
-require 'HTTParty'
 require 'sinatra'
 require 'theaters.rb'
 
