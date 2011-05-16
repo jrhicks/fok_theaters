@@ -3,7 +3,6 @@ require 'cgi'
 require 'HTTParty'
 require 'sinatra'
 require 'theaters.rb'
-require 'erb'
 
 GOOGLE_API_CODE = 'ABQIAAAAb0Sv2hCd8UdPqsnJb4tlxhSuHW_e0bmW98OEDUUx7DH-1gkwmhR-nrpauXqPZUkA_fl4urXeYuDCDA' 
 
