@@ -1,0 +1,108 @@
+<HTML>
+<head>
+<title>Forks Over Knives</title>
+<style>
+h1 {
+  padding-top: .5em;
+  font-size: 26px;
+  font-style: normal;
+  font-weight: 400;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1;
+  padding-bottom: 0;
+  margin-bottom: .5em;
+}
+h2 {
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1;
+}
+
+body {
+font:normal 12px/20px "Lucida Grande", Verdana, Arial, sans-serif;
+color:#baae99;
+background:#03050c url(bodybg.jpg) no-repeat fixed center top;
+margin:0;
+padding:0 0 15px 0;}
+
+#wrapper {color: 080a16; background:url(headerbg.gif) repeat-x center top;}
+#header {position:relative; height:100px; background:url(headerfuzz.gif) no-repeat center top;}
+
+</style>
+<script src="http://maps.google.com/maps?file=api&v=2&key=<%=GOOGLE_API_CODE%>" type="text/javascript"></script>
+</head>
+
+<script type="text/javascript">
+	var directionDisplay;
+	var directionsService = new google.maps.DirectionsService();
+	var map;
+
+	function initialize() {
+	  directionsDisplay = new google.maps.DirectionsRenderer();
+	  var source = new google.maps.LatLng(<%=source_lat%>, <%=source_lon%>);
+	  var myOptions = {
+		zoom:7,
+		mapTypeId: google.maps.MapTypeId.ROADMAP,
+		center: source
+	  }
+	  map = new google.maps.Map(document.getElementById("map"), myOptions);
+	  directionsDisplay.setMap(map);
+	  calcRoute();
+	}
+
+	function calcRoute() {
+	  var start = document.getElementById(<%=params[:address]%>).value;
+	  var end = document.getElementById('<%=nearest[:address]%> <%=nearest[:city]%>  <%=nearest[:state]%>').value;
+	  var request = {
+		origin:start,
+		destination:end,
+		travelMode: google.maps.TravelMode.DRIVING
+	  };
+	  directionsService.route(request, function(result, status) {
+		if (status == google.maps.DirectionsStatus.OK) {
+		  directionsDisplay.setDirections(result);
+		}
+	  });
+	}	
+
+</script>
+
+
+
+<body style="margin: 0px; padding: 0px;" onLoad="initialize();">
+	
+	<div style="width: 100%; text-align: center;" id="wrapper">
+	<div id="header">
+		<h1>Forks Over Knives - Nearest Theater</h1><br><br>
+	</div>
+	</div>
+
+	<div style="width: 100%; text-align: center;">
+		<form action="search">
+			<input type="text"value="Your Address" name="address" size="50" onfocus="this.value='';"> <input type="submit" value="Go"><br><br>
+		</form>
+	</div>
+	
+	
+	<div id="map" style="width:520px; height: 400px; margin: auto;"></div>
+	<br>
+	<div id="result" style="width:520px; margin: auto;"></div>
+	<br>
+	
+	<p style="width: 520px; margin: auto;">
+	After months of worsening conditions with ineffective treatments, my loved sister is <u>above</u> her Sarcoidosis thanks to a plant-strong diet. Thank You Doctors!<BR><BR>
+	I tweet as @jrhicks
+	<p>
+</body>
+
+</html>
