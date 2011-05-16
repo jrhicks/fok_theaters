@@ -19,7 +19,7 @@ end
 
 get	 '/search' do
 	sources = params[:address]
-	destinations = THEATERS.map{|t| "#{t.address}, #{t.city}  #{t.state}".join("|")
+	destinations = THEATERS.map{|t| "#{t.address}, #{t.city}  #{t.state}"}.join("|")
     url = "http://maps.googleapis.com/maps/api/distancematrix/json?origins=#{sources}&destinations=#{destinations}&mode=driving&sensor=false"
     escaped_url = CGI.escape_url(url)
 	response = HTTParty.get(escaped_url).parsed_response
