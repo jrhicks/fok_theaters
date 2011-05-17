@@ -48,6 +48,37 @@ padding:0 0 15px 0;}
 	var directionsService = new google.maps.DirectionsService();
 	var map;
 
+	<% for theater in THEATERS %>
+		var mark<%=theater.object_id%>;
+	<%end %>
+
+	function load_points() {
+		map.addControl(new GSmallMapControl());
+		map.addControl(new GMapTypeControl());
+		
+		<% for t in @results %>
+		var point = new GLatLng(<%=t[:latitude]%>,<%=t[:longitude]%>);
+		bounds.extend(point);
+		mark<%=t.object_id%> = new GMarker(point);
+		GEvent.addListener(mark<%=t.object_id%>, "click", function() {
+			map.setCenter(new GLatLng(<%=t[:latitude]%>, <%=t[:longitude]%>));
+			mark<%=t.object_id%>.openInfoWindowHtml("<%=t[:name]%>");
+			});
+		map.addOverlay(mark<%=t.object_id%>);
+		<%end %>
+		map.setCenter(bounds.getCenter(), map.getBoundsZoomLevel(bounds));
+		};
+		<% for t in @results %>
+		function locate<%=t.object_id%>() {
+		map.closeInfoWindow();
+		map.setCenter(map.getCenter(), 5);
+		map.panTo(new GLatLng(<%=t[:latitude]%>, <%=t[:longitude]%>)) ;
+		window.setTimeout(function() {
+		mark<%=t.object_id%>.openInfoWindowHtml("<%=t.object_id%>");
+		}, 2000);
+		};
+	
+	
 	function initialize() {
 	  directionsDisplay = new google.maps.DirectionsRenderer();
 	  var source = new google.maps.LatLng(<%=@source_lat%>, <%=@source_lon%>);
@@ -59,6 +90,7 @@ padding:0 0 15px 0;}
 	  map = new google.maps.Map(document.getElementById("map"), myOptions);
 	  directionsDisplay.setMap(map);
 	  calcRoute();
+	  loadPoints();
 	}
 
 	function calcRoute() {
@@ -101,10 +133,12 @@ padding:0 0 15px 0;}
 	<br>
 	
 	<p style="width: 520px; margin: auto;">
-	After months of worsening conditions with ineffective treatments, my loved sister is <u>above</u> her Sarcoidosis thanks to a plant-strong diet. Thank You Doctors!<BR><BR>
-	
-	Twitter: @jrhicks<br>
-	<a href="http://mailyourcongres.com">MailYourCongress.com</a>
+
+	After months of worsening conditions with ineffective treatments, my loved sister is curing her Sarcoidosis thanks to a plant-strong diet. Thank You Doctors!<BR><BR>
+	<br><br>
+	Twitter: @jrhicks
+
+
 	<p>
 </body>
 
