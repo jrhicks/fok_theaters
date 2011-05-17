@@ -2,6 +2,8 @@ require 'rubygems'
 require 'sinatra'
 require 'theaters.rb'
 require 'cgi'
+require 'net/http'
+require 'uri'
 
 GOOGLE_API_CODE = 'ABQIAAAAb0Sv2hCd8UdPqsnJb4tlxhSuHW_e0bmW98OEDUUx7DH-1gkwmhR-nrpauXqPZUkA_fl4urXeYuDCDA' 
 
@@ -16,6 +18,8 @@ end
 get	 '/search' do
 	# Geocode Source Address
 	url = "http://maps.googleapis.com/maps/api/geocode/json?address=#{CGI.escape(params[:address])}&sensor=false"
+	data = Net::HTTP.get(URI.parse(url))
+	return data
 	response = HTTParty.get(url).parsed_response
 	
 	if response["status"]=="OK"
