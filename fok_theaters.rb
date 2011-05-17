@@ -15,7 +15,7 @@ get '/' do
 	erb :index
 end
 
-get	 '/search' do
+get '/search' do
 	# Geocode Source Address
 	url = "http://maps.googleapis.com/maps/api/geocode/json?address=#{CGI.escape(params[:address])}&sensor=false"
 	response = JSON.parse(Net::HTTP.get(URI.parse(url)))
@@ -27,14 +27,14 @@ get	 '/search' do
 	end
 
 	# Distance Matrix
-	sorted_theaters = THEATERS.sort {|a,b| Math.sqrt((@source_lat-a[:latitude])**2+(@source_lon-a[:longitude])**2) <=> Math.sqrt((@source_lat-b[:latitude])**2+(@source_lon-b[:longitude])**2)}
+	@sorted_theaters = THEATERS.sort {|a,b| Math.sqrt((@source_lat-a[:latitude])**2+(@source_lon-a[:longitude])**2) <=> Math.sqrt((@source_lat-b[:latitude])**2+(@source_lon-b[:longitude])**2)}
 	sources = params[:address]
-	destinations = sorted_theaters.slice(0,COUNT).map{|t| "#{t[:address]}, #{t[:city]}  #{t[:state]}" }.join("|")
+	destinations = @sorted_theaters.slice(0,COUNT).map{|t| "#{t[:address]}, #{t[:city]}  #{t[:state]}" }.join("|")
   url = "http://maps.googleapis.com/maps/api/distancematrix/json?origins=#{CGI.escape(sources)}&destinations=#{CGI.escape(destinations)}&mode=driving&sensor=false"
   response = JSON.parse(Net::HTTP.get(URI.parse(url)))
 	elements = response["rows"][0]["elements"] # only one source
 	index = 0
-	@results = sorted_theaters.slice(0,COUNT).each do |t|
+	@results = @sorted_theaters.slice(0,COUNT).each do |t|
 		element = elements[index]
 		index = index+1
 		t[:distance_text] = element["distance"]["text"]
