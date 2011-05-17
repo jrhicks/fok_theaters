@@ -1,88 +1,16 @@
-<HTML>
-<head>
-<title>Forks Over Knive Theater Locations Mapped</title>
-<style>
-h1 {
-  padding-top: .5em;
-  font-size: 26px;
-  font-style: normal;
-  font-weight: 400;
-  text-shadow: none;
-  text-decoration: none;
-  text-transform: none;
-  letter-spacing: 0em;
-  word-spacing: 0em;
-  line-height: 1;
-  padding-bottom: 0;
-  margin-bottom: .5em;
-}
-h2 {
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 400;
-  text-shadow: none;
-  text-decoration: none;
-  text-transform: none;
-  letter-spacing: 0em;
-  word-spacing: 0em;
-  line-height: 1;
-}
+<%=erb :header%>
 
-body {
-font:normal 12px/20px "Lucida Grande", Verdana, Arial, sans-serif;
-margin:0;
-padding:0 0 15px 0;}
-
-
-</style>
-<script src="http://maps.google.com/maps?file=api&v=2&key=<%=GOOGLE_API_CODE%>" type="text/javascript"></script>
-</head>
-
-<script type="text/javascript">
-	var map;
-	var bounds = new GLatLngBounds();
-
-	<% for theater in THEATERS %>
-		var mark<%=theater.object_id%>;
-	<%end %>
-
-	function load_map() {
-		map = new GMap2(document.getElementById("map"));
-		map.addControl(new GSmallMapControl());
-		map.addControl(new GMapTypeControl());
-		
-		<% for t in THEATERS %>
-		var point = new GLatLng(<%=t[:latitude]%>,<%=t[:longitude]%>);
-		bounds.extend(point);
-		mark<%=t.object_id%> = new GMarker(point);
-		GEvent.addListener(mark<%=t.object_id%>, "click", function() {
-			map.setCenter(new GLatLng(<%=t[:latitude]%>, <%=t[:longitude]%>));
-			mark<%=t.object_id%>.openInfoWindowHtml("<%=t[:name]%>");
-			});
-		map.addOverlay(mark<%=t.object_id%>);
-		<%end %>
-		map.setCenter(bounds.getCenter(), map.getBoundsZoomLevel(bounds));
-		};
-		<% for t in THEATERS %>
-		function locate<%=t.object_id%>() {
-		map.closeInfoWindow();
-		map.setCenter(map.getCenter(), 5);
-		map.panTo(new GLatLng(<%=t[:latitude]%>, <%=t[:longitude]%>)) ;
-		window.setTimeout(function() {
-		mark<%=t.object_id%>.openInfoWindowHtml("<%=t.object_id%>");
-		}, 2000);
-		};
-		
-		function search(address) {
-			
-		}
-		
-		<%end %>
+    function initialize() {
+      var myOptions = {	zoom:4,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        center: new google.maps.LatLng(34.828556, -92.401389)    
+      }
+      map = new google.maps.Map(document.getElementById("map"), myOptions);
+      loadPoints();
+   };
 </script>
 
-
-
-<body style="margin: 0px; padding: 0px;" onLoad="load_map();">
+<body style="margin: 0px; padding: 0px;" onLoad="initialize();">
 	
 	<div style="width: 100%; text-align: center;" id="wrapper">
 		<h1>Forks Over Knives - Nearest Theater</h1>
@@ -97,19 +25,4 @@ padding:0 0 15px 0;}
   </div>	
 	<div id="map" style="width:780px; height: 375px; margin: auto;"></div>
 
-	<div style="width: 800px; margin: auto; clear: left;">
-  <br>
-  <div style="float: left; width: 100px;"><a href="https://twitter.com/#!/jrhicks"><img style="width: 75px; border: 0px;" src="https://si1.twimg.com/profile_images/1322552084/dinghy_captain_reasonably_small.jpg" style="float: left;"></a></div>
-	<div style="float: left; width: 500px;">After months of worsening conditions with ineffective treatments, my beloved sister is curing her Sarcoidosis thanks to a plant-strong diet.
-  <br>
-  <a href="<a href="https://twitter.com/#!/jrhicks">@jrhicks</a>
-  </div>
-  </p>
-  </p>
-  <br>
-  <hr style="clear: both;">
-    Brought to you by <a href="http://mailyourcongress.com">MailYourCongress.com</a>
-	</div>
-</body>
-
-</html>
+<%=erb :footer%>
