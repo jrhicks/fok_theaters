@@ -1,4 +1,4 @@
- {:start_date=>"",
+[ {:start_date=>"",
   :city=>"Atlanta",
   :url=>"",
   :state=>"GA",
