@@ -1,15 +1,14 @@
 THEATERS = [ 
-
-  {:start_date=>"",
--  :city=>"St. Louis",
--  :url=>"",
--  :state=>"MO",
--  :zip=>"63131",
--  :theater=>"Plaza Frontenac Cinema",
--  :latitude=>38.6311,
--  :name=>"Plaza Frontenac Cinema, 210 Plaza Frontenac, St. Louis, MO 63131",
--  :longitude=>-90.4077,
--  :address=>"210 Plaza Frontenac"},
+{:start_date=>"",
+  :city=>"St. Louis",
+  :url=>"",
+  :state=>"MO",
+  :zip=>"63131",
+  :theater=>"Plaza Frontenac Cinema",
+  :latitude=>38.6311,
+  :name=>"Plaza Frontenac Cinema, 210 Plaza Frontenac, St. Louis, MO 63131",
+  :longitude=>-90.4077,
+  :address=>"210 Plaza Frontenac"},
 
 
 {:start_date=>"",
